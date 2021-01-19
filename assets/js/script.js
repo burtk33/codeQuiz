@@ -24,25 +24,29 @@ function startGame() {
     timerCount = 75;
     startTimer();
     startTitle.textContent = "";
-    createButtons();
     renderQuestion();
 }
 
-function createButtons() {
-    for (i = 0; i < 4; i++) {
-        var newButton = document.createElement("button");
-        newButton.setAttribute("class", "btn btn-primary");
-        newButton.setAttribute("type", "button");
-        newButton.setAttribute("value", i);
-        answerButtons.appendChild(newButton);
-    }
-};
 
 function renderQuestion() {
     var q = questionArray[questionCount];
     questionBlock.innerHTML = q.question;
-    for (j = 0; j < q.possibleAnswers.length; j++)
+    for (i = 0; i < 4; i++) {
+        var newButton = document.createElement("button");
+        newButton.setAttribute("class", "btn btn-primary");
+        newButton.setAttribute("type", "button");
+        newButton.addEventListener("click", checkAnswer);
+        newButton.innerHTML = q.possibleAnswers[i];
+        answerButtons.appendChild(newButton);
+    }
 };
+
+//answerButtons.addEventListener("click", checkAnswer);
+
+function checkAnswer(){
+    var buttonClicked = this.textContent;
+    console.log(buttonClicked);
+}
 
 
 // Function to start the timer
