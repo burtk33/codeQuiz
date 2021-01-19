@@ -1,20 +1,22 @@
 
-var timerElement = document.getElementById("timer");
-var startButton = document.getElementById("start-button");
+var timerElement = document.querySelector("#timer");
+var startButton = document.querySelector("#start-button");
 var startTitle = document.querySelector("h3");
-var questionBlock = document.getElementById("question");
+var questionBlock = document.querySelector("#question");
+var answerButtons = document.querySelector("#answer-buttons")
 
 var timer;
 var timerCount;
 var complete = false;
+var questionCount = 0;
 
 
 // Question array of objects
 var questionArray = [
-    { question: "", possibleAnswers: ["", "", "", ""], correct: "" },
-    { question: "", possibleAnswers: [], correct: "" },
-    { question: "", possibleAnswers: [], correct: "" },
-    { question: "", possibleAnswers: [], correct: "" }];
+    { question: "question 1", possibleAnswers: ["incorrect", "incorrect", "incorrect", "correct"], correct: "correct" },
+    { question: "question 2", possibleAnswers: [], correct: "" },
+    { question: "question 3", possibleAnswers: [], correct: "" },
+    { question: "question 4", possibleAnswers: [], correct: "" }];
 
 
 // The startGame function is called when the start button is clicked
@@ -22,20 +24,32 @@ function startGame() {
     timerCount = 75;
     startTimer();
     startTitle.textContent = "";
-    quizRun();
+    createButtons();
+    renderQuestion();
 }
 
-function quizRun() {
-    for (i = 0; i < questionArray.length; i++) {
-        
+function createButtons() {
+    for (i = 0; i < 4; i++) {
+        var newButton = document.createElement("button");
+        newButton.setAttribute("class", "btn btn-primary");
+        newButton.setAttribute("type", "button");
+        newButton.setAttribute("value", i);
+        answerButtons.appendChild(newButton);
     }
-}
+};
+
+function renderQuestion() {
+    var q = questionArray[questionCount];
+    questionBlock.innerHTML = q.question;
+    for (j = 0; j < q.possibleAnswers.length; j++)
+};
+
 
 // Function to start the timer
 function startTimer() {
     timer = setInterval(function () {
         timerCount--;
-        timerElement.textContent = ("Timer: "+timerCount);
+        timerElement.textContent = ("Timer: " + timerCount);
         if (timerCount >= 0) {
             if (complete === true && timerCount > 0) {
                 clearInterval(timer);
@@ -52,17 +66,3 @@ function startTimer() {
 
 // add click event for start button
 startButton.addEventListener("click", startGame);
-
-// Add reset button
-var resetButton = document.querySelector(".reset-button");
-
-function resetGame() {
-    // Resets win and loss counts
-    winCounter = 0;
-    loseCounter = 0;
-    // Renders win and loss counts and sets them into client storage
-    setWins()
-    setLosses()
-}
-// Attaches event listener to button
-resetButton.addEventListener("click", resetGame);
