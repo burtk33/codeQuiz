@@ -1,15 +1,13 @@
 
 
-.timer-style{
-    text-align:right;
-}
-
-.high-style{
-    text-align:left;
-}
-
 header{
     background-color: rgb(194, 193, 193);
     margin : 5px;
     padding: 5px;
 }
+
+#question{
+    margin:10px;
+    padding:10px;
+}
+
