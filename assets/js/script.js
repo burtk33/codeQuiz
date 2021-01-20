@@ -91,7 +91,7 @@ function startTimer() {
                 endGame();
             }
         }
-        if (timerCount === 0) {
+        if (timerCount <= 0) {
             clearInterval(timer);
             endGame();
         }
@@ -100,15 +100,32 @@ function startTimer() {
 
 function endGame() {
     score = timerCount;
-    complete=true;
+    complete = true;
     answerButtons.remove();
-    questionBlock.textContent = "Quiz Complete!";
-    selectionMsg.textContent = "Your score is " + score;
+    startTitle.textContent = "Quiz Complete!";
+    questionBlock.textContent = "";
+    selectionMsg.textContent = "Your score is " + score + ". Please enter your initials";
+    var submitForm=document.createElement("input");
+    var submitBtn= document.createElement("button");
+    submitBtn.textContent="Submit";
+    submitBtn.setAttribute("class", "btn btn-primary");
+    submitBtn.setAttribute("type", "button");
+    submitBtn.addEventListener("click", viewScores);
+    submitForm.setAttribute("class", "form-control");
+    submitForm.setAttribute("id", "initials");
+    selectionMsg.appendChild(submitForm);
+    selectionMsg.appendChild(submitBtn);
+
 
 }
 
-function viewScores(){
-    
+function viewScores() {
+    var userInitials=document.querySelector("#initials").textContent;
+    console.log(userInitials);
+}
+
+function submitScore(){
+
 }
 
 
