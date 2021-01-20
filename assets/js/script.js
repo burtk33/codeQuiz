@@ -5,6 +5,7 @@ var startTitle = document.querySelector("h3");
 var questionBlock = document.querySelector("#question");
 var answerButtons = document.querySelector("#answer-buttons");
 var selectionMsg = document.querySelector("#alert-msg");
+var highscores = document.querySelector("#high-score");
 
 var timer;
 var timerCount;
@@ -60,22 +61,22 @@ function checkAnswer() {
     var buttonClicked = this.textContent;
     var q = questionArray[questionCount];
     console.log(buttonClicked);
-        if (buttonClicked === q.correct && timerCount > 0) {
-            selectionMsg.textContent = "Correct!";
-            questionCount++;
-            console.log(questionCount);
-            if(questionCount<questionArray.length){
-                renderQuestion();
-            }
-            else{
-                endGame();
-            }
-            
+    if (buttonClicked === q.correct && timerCount > 0) {
+        selectionMsg.textContent = "Correct!";
+        questionCount++;
+        console.log(questionCount);
+        if (questionCount < questionArray.length) {
+            renderQuestion();
         }
         else {
-            selectionMsg.textContent = "Incorrect!";
-            timerCount -= 10;
+            endGame();
         }
+
+    }
+    else {
+        selectionMsg.textContent = "Incorrect!";
+        timerCount -= 10;
+    }
 };
 
 
@@ -97,13 +98,22 @@ function startTimer() {
     }, 1000);
 }
 
-function endGame(){
-    score=timerCount;
+function endGame() {
+    score = timerCount;
+    complete=true;
     answerButtons.remove();
-    questionBlock.textContent="";
-    var initials= prompt("Your score is "+score);
+    questionBlock.textContent = "Quiz Complete!";
+    selectionMsg.textContent = "Your score is " + score;
+
+}
+
+function viewScores(){
+    
 }
 
 
 // add click event for start button
 startButton.addEventListener("click", startGame);
+
+//add click event for viewing high scores
+highscores.addEventListener("click", viewScores);
