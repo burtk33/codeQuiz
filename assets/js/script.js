@@ -6,12 +6,18 @@ var questionBlock = document.querySelector("#question");
 var answerButtons = document.querySelector("#answer-buttons");
 var selectionMsg = document.querySelector("#alert-msg");
 var highscores = document.querySelector("#high-score");
+var submitForm = document.createElement("input");
+var submitBtn = document.createElement("button");
+var resetBtn = document.createElement("button");
+var clearBtn = document.createElement("button");
 
 var timer;
 var timerCount;
 var complete = false;
 var questionCount = 0;
 var score = 0;
+var quizRunning = false;
+var startRunning = true;
 
 
 
@@ -26,6 +32,8 @@ var questionArray = [
 
 // The startGame function is called when the start button is clicked
 function startGame() {
+    startRunning = false;
+    quizRunning = true;
     timerCount = 75;
     startTimer();
     startTitle.textContent = "";
@@ -101,31 +109,55 @@ function startTimer() {
 function endGame() {
     score = timerCount;
     complete = true;
+    quizRunning = false;
     answerButtons.remove();
     startTitle.textContent = "Quiz Complete!";
-    questionBlock.textContent = "";
-    selectionMsg.textContent = "Your score is " + score + ". Please enter your initials";
-    var submitForm=document.createElement("input");
-    var submitBtn= document.createElement("button");
-    submitBtn.textContent="Submit";
+    questionBlock.textContent = "Your score is " + score + ". Please enter your initials";
+    submitBtn.textContent = "Submit";
     submitBtn.setAttribute("class", "btn btn-primary");
     submitBtn.setAttribute("type", "button");
-    submitBtn.addEventListener("click", viewScores);
+    submitBtn.addEventListener("click", submitScore);
     submitForm.setAttribute("class", "form-control");
+    submitForm.setAttribute("type", "text");
     submitForm.setAttribute("id", "initials");
     selectionMsg.appendChild(submitForm);
     selectionMsg.appendChild(submitBtn);
-
-
 }
 
 function viewScores() {
-    var userInitials=document.querySelector("#initials").textContent;
-    console.log(userInitials);
+
+    startTitle.textContent = " Highscores";
+    questionBlock.textContent = "";
+    selectionMsg.textContent = "";
+    if (startRunning === true) {
+        startButton.remove();
+    }
+    if (quizRunning === true) {
+        answerButtons.remove();
+    }
+    if (complete === true) {
+        submitForm.remove();
+        submitBtn.remove();
+    }
+    var textFill = JSON.parse(window.localStorage.getItem("user"));
+    questionBlock.textContent = textFill;
+    resetBtn.setAttribute("class", "btn btn-primary");
+    clearBtn.setAttribute("class", "btn btn-primary");
+    resetBtn.setAttribute("type", "button");
+    clearBtn.setAttribute("type", "button");
+
+
+
+
+
 }
 
-function submitScore(){
-
+function submitScore() {
+    var user = document.querySelector("#initials");
+    var userInitials = user.value;
+    window.localStorage.setItem("user", JSON.stringify(score + " " + userInitials));
+    console.log(userInitials);
+    viewScores();
 }
 
 
