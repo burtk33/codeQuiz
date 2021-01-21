@@ -18,15 +18,16 @@ var questionCount = 0;
 var score = 0;
 var quizRunning = false;
 var startRunning = true;
+var userScoreArray=[];
 
 
 
 // Question array of objects
 var questionArray = [
-    { question: "question 1", possibleAnswers: ["incorrect", "incorrect", "incorrect", "correct"], correct: "correct" },
-    { question: "question 2", possibleAnswers: ["correct", "incorrect", "incorrect", "incorrect"], correct: "correct" },
-    { question: "question 3", possibleAnswers: ["incorrect", "incorrect", "correct", "incorrect"], correct: "correct" },
-    { question: "question 4", possibleAnswers: ["incorrect", "correct", "incorrect", "incorrect"], correct: "correct" }];
+    { question: "Commonly used data types do not include?", possibleAnswers: ["strings", "booleans", "integers", "alerts"], correct: "alerts" },
+    { question: "The condition in an if statement is surround by?", possibleAnswers: ["parentheses", "curly brackets", "quotes", "block brackets"], correct: "parentheses" },
+    { question: "Arrays in Javascript can be used to store?", possibleAnswers: ["booleans", "strings", "objects", "all of the above"], correct: "all of the above" },
+    { question: "String values must be enclosed with ________ when being assigned to variable.", possibleAnswers: ["parentheses", "quotations", "curly brackets", "commas"], correct: "quotations" }];
 
 
 
@@ -42,6 +43,7 @@ function startGame() {
     startButton.remove();
 }
 
+//dynamicall creat the answer choice buttons
 function createButtons() {
     for (i = 0; i < 4; i++) {
         var newButton = document.createElement("button");
@@ -53,7 +55,7 @@ function createButtons() {
     }
 }
 
-
+//display the question
 function renderQuestion() {
     var q = questionArray[questionCount];
     questionBlock.textContent = q.question;
@@ -64,7 +66,7 @@ function renderQuestion() {
 
 };
 
-
+//check the users answers
 function checkAnswer() {
     var buttonClicked = this.textContent;
     var q = questionArray[questionCount];
@@ -106,6 +108,8 @@ function startTimer() {
     }, 1000);
 }
 
+//function to run when game ends
+//prompts user to inut their initials for the scoreboard
 function endGame() {
     score = timerCount;
     complete = true;
@@ -124,6 +128,7 @@ function endGame() {
     selectionMsg.appendChild(submitBtn);
 }
 
+//display the scoreboard
 function viewScores() {
 
     startTitle.textContent = " Highscores";
@@ -142,24 +147,27 @@ function viewScores() {
     var textFill = JSON.parse(window.localStorage.getItem("user"));
     questionBlock.textContent = textFill;
     resetBtn.setAttribute("class", "btn btn-primary");
-    clearBtn.setAttribute("class", "btn btn-primary");
     resetBtn.setAttribute("type", "button");
-    clearBtn.setAttribute("type", "button");
-
-
-
-
+    resetBtn.textContent="Reset";
+    resetBtn.addEventListener("click", resetPage);
+    selectionMsg.appendChild(resetBtn);
 
 }
 
+//submit the score to localStorage
 function submitScore() {
     var user = document.querySelector("#initials");
     var userInitials = user.value;
-    window.localStorage.setItem("user", JSON.stringify(score + " " + userInitials));
+    var userScore=score+" "+userInitials;
+    userScoreArray.push(userScore);
+    window.localStorage.setItem("user", JSON.stringify(userScoreArray));
     console.log(userInitials);
     viewScores();
 }
 
+function resetPage(){
+    location.reload();S
+}
 
 // add click event for start button
 startButton.addEventListener("click", startGame);
